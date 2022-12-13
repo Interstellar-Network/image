@@ -1,10 +1,23 @@
 //! Contains the generic `ImageBuffer` struct.
-use num_traits::Zero;
-use std::fmt;
-use std::marker::PhantomData;
-use std::ops::{Deref, DerefMut, Index, IndexMut, Range};
+
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::io::{Seek, Write};
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::path::Path;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::vec;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::vec::Vec;
+#[cfg(feature = "std")]
+use std::io::{Seek, Write};
+#[cfg(feature = "std")]
 use std::path::Path;
-use std::slice::{ChunksExact, ChunksExactMut};
+
+use core::fmt;
+use core::marker::PhantomData;
+use core::ops::{Deref, DerefMut, Index, IndexMut, Range};
+use core::slice::{ChunksExact, ChunksExactMut};
+use num_traits::Zero;
 
 use crate::color::{FromColor, Luma, LumaA, Rgb, Rgba};
 use crate::dynimage::{save_buffer, save_buffer_with_format, write_buffer_with_format};
@@ -1046,7 +1059,7 @@ where
     /// supported types.
     pub fn write_to<W, F>(&self, writer: &mut W, format: F) -> ImageResult<()>
     where
-        W: std::io::Write + std::io::Seek,
+        W: Write + Seek,
         F: Into<ImageOutputFormat>,
         P: PixelWithColorType,
     {
@@ -1612,7 +1625,7 @@ mod test {
     fn write_to_with_large_buffer() {
         // A buffer of 1 pixel, padded to 4 bytes as would be common in, e.g. BMP.
         let img: GrayImage = ImageBuffer::from_raw(1, 1, vec![0u8; 4]).unwrap();
-        let mut buffer = std::io::Cursor::new(vec![]);
+        let mut buffer = Cursor::new(vec![]);
         assert!(img.write_to(&mut buffer, ImageOutputFormat::Png).is_ok());
     }
 

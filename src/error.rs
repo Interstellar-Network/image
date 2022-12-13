@@ -13,8 +13,24 @@
 //!
 //! [`ImageError`]: enum.ImageError.html
 
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::boxed::Box;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::error::Error;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::io;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::path::{Path, PathBuf};
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::string::String;
+#[cfg(feature = "std")]
 use std::error::Error;
-use std::{fmt, io};
+#[cfg(feature = "std")]
+use std::io;
+#[cfg(feature = "std")]
+use std::path::{Path, PathBuf};
+
+use core::fmt;
 
 use crate::color::ExtendedColorType;
 use crate::image::ImageFormat;
@@ -183,7 +199,7 @@ pub enum ImageFormatHint {
     Name(String),
 
     /// A common path extension for the format is known.
-    PathExtension(std::path::PathBuf),
+    PathExtension(PathBuf),
 
     /// The format is not known or could not be determined.
     Unknown,
@@ -298,8 +314,8 @@ impl From<ImageFormat> for ImageFormatHint {
     }
 }
 
-impl From<&'_ std::path::Path> for ImageFormatHint {
-    fn from(path: &'_ std::path::Path) -> Self {
+impl From<&'_ Path> for ImageFormatHint {
+    fn from(path: &'_ Path) -> Self {
         match path.extension() {
             Some(ext) => ImageFormatHint::PathExtension(ext.into()),
             None => ImageFormatHint::Unknown,

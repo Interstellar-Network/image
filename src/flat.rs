@@ -41,9 +41,17 @@
 //! }
 //! ```
 //!
-use std::marker::PhantomData;
-use std::ops::{Deref, Index, IndexMut};
-use std::{cmp, error, fmt};
+
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::error::Error as StdError;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::vec::Vec;
+#[cfg(feature = "std")]
+use std::error::Error as StdError;
+
+use core::marker::PhantomData;
+use core::ops::{Deref, Index, IndexMut};
+use core::{cmp, fmt};
 
 use num_traits::Zero;
 
@@ -1483,7 +1491,7 @@ impl From<Error> for ImageError {
                 write!(f, "Required sample buffer in normal form {:?}", self.0)
             }
         }
-        impl error::Error for NormalFormRequiredError {}
+        impl StdError for NormalFormRequiredError {}
 
         match error {
             Error::TooLarge => ImageError::Parameter(ParameterError::from_kind(
@@ -1526,8 +1534,6 @@ impl fmt::Display for Error {
         }
     }
 }
-
-impl error::Error for Error {}
 
 impl PartialOrd for NormalForm {
     /// Compares the logical preconditions.

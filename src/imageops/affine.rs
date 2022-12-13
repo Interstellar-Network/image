@@ -1,9 +1,13 @@
 //! Functions for performing affine transformations.
 
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::vec::Vec;
+
 use crate::error::{ImageError, ParameterError, ParameterErrorKind};
 use crate::image::{GenericImage, GenericImageView};
 use crate::traits::Pixel;
 use crate::ImageBuffer;
+use core::ops::DerefMut;
 
 /// Rotate an image 90 degrees clockwise.
 pub fn rotate90<I: GenericImageView>(
@@ -52,7 +56,7 @@ pub fn rotate90_in<I, Container>(
 where
     I: GenericImageView,
     I::Pixel: 'static,
-    Container: std::ops::DerefMut<Target = [<I::Pixel as Pixel>::Subpixel]>,
+    Container: DerefMut<Target = [<I::Pixel as Pixel>::Subpixel]>,
 {
     let ((w0, h0), (w1, h1)) = (image.dimensions(), destination.dimensions());
     if w0 != h1 || h0 != w1 {
@@ -78,7 +82,7 @@ pub fn rotate180_in<I, Container>(
 where
     I: GenericImageView,
     I::Pixel: 'static,
-    Container: std::ops::DerefMut<Target = [<I::Pixel as Pixel>::Subpixel]>,
+    Container: DerefMut<Target = [<I::Pixel as Pixel>::Subpixel]>,
 {
     let ((w0, h0), (w1, h1)) = (image.dimensions(), destination.dimensions());
     if w0 != w1 || h0 != h1 {
@@ -104,7 +108,7 @@ pub fn rotate270_in<I, Container>(
 where
     I: GenericImageView,
     I::Pixel: 'static,
-    Container: std::ops::DerefMut<Target = [<I::Pixel as Pixel>::Subpixel]>,
+    Container: DerefMut<Target = [<I::Pixel as Pixel>::Subpixel]>,
 {
     let ((w0, h0), (w1, h1)) = (image.dimensions(), destination.dimensions());
     if w0 != h1 || h0 != w1 {
@@ -156,7 +160,7 @@ pub fn flip_horizontal_in<I, Container>(
 where
     I: GenericImageView,
     I::Pixel: 'static,
-    Container: std::ops::DerefMut<Target = [<I::Pixel as Pixel>::Subpixel]>,
+    Container: DerefMut<Target = [<I::Pixel as Pixel>::Subpixel]>,
 {
     let ((w0, h0), (w1, h1)) = (image.dimensions(), destination.dimensions());
     if w0 != w1 || h0 != h1 {
@@ -182,7 +186,7 @@ pub fn flip_vertical_in<I, Container>(
 where
     I: GenericImageView,
     I::Pixel: 'static,
-    Container: std::ops::DerefMut<Target = [<I::Pixel as Pixel>::Subpixel]>,
+    Container: DerefMut<Target = [<I::Pixel as Pixel>::Subpixel]>,
 {
     let ((w0, h0), (w1, h1)) = (image.dimensions(), destination.dimensions());
     if w0 != w1 || h0 != h1 {

@@ -1,7 +1,10 @@
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd as std;
+
+use core::u32;
 use std::fs::File;
-use std::io::{BufRead, BufReader, BufWriter, Seek};
+use std::io::{BufRead, BufReader, BufWriter, Seek, Write};
 use std::path::Path;
-use std::u32;
 
 use crate::codecs::*;
 
@@ -191,7 +194,7 @@ pub(crate) fn save_buffer_with_format_impl(
 
 #[allow(unused_variables)]
 // Most variables when no features are supported
-pub(crate) fn write_buffer_impl<W: std::io::Write + Seek>(
+pub(crate) fn write_buffer_impl<W: Write + Seek>(
     buffered_write: &mut W,
     buf: &[u8],
     width: u32,

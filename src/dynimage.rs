@@ -1,7 +1,18 @@
-use std::io;
-use std::io::{Seek, Write};
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::borrow::ToOwned;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::io::{Cursor, Seek, Write};
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::path::Path;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::vec::Vec;
+#[cfg(feature = "std")]
+use std::io::{Cursor, Seek, Write};
+#[cfg(feature = "std")]
 use std::path::Path;
-use std::u32;
+
+use core::u32;
 
 #[cfg(feature = "gif")]
 use crate::codecs::gif;
@@ -1222,7 +1233,7 @@ pub fn load_from_memory(buffer: &[u8]) -> ImageResult<DynamicImage> {
 /// [`io::Reader`]: io/struct.Reader.html
 #[inline(always)]
 pub fn load_from_memory_with_format(buf: &[u8], format: ImageFormat) -> ImageResult<DynamicImage> {
-    let b = io::Cursor::new(buf);
+    let b = Cursor::new(buf);
     free_functions::load(b, format)
 }
 

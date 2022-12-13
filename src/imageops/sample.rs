@@ -3,7 +3,12 @@
 // See http://cs.brown.edu/courses/cs123/lectures/08_Image_Processing_IV.pdf
 // for some of the theory behind image scaling and convolution
 
-use std::f32;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::boxed::Box;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::vec::Vec;
+
+use core::f32;
 
 use num_traits::{NumCast, ToPrimitive, Zero};
 

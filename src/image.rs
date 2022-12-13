@@ -1,11 +1,31 @@
 #![allow(clippy::too_many_arguments)]
-use std::convert::TryFrom;
+
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::ffi::OsStr;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::io;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::io::Read;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::path::Path;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::string::String;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::vec::Vec;
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::{format, vec};
+#[cfg(feature = "std")]
 use std::ffi::OsStr;
+#[cfg(feature = "std")]
 use std::io;
+#[cfg(feature = "std")]
 use std::io::Read;
-use std::ops::{Deref, DerefMut};
+#[cfg(feature = "std")]
 use std::path::Path;
-use std::usize;
+
+use core::convert::TryFrom;
+use core::ops::{Deref, DerefMut};
+use core::usize;
 
 use crate::color::{ColorType, ExtendedColorType};
 use crate::error::{
@@ -604,7 +624,7 @@ where
         )));
     }
 
-    let mut buf = vec![num_traits::Zero::zero(); total_bytes.unwrap() / std::mem::size_of::<T>()];
+    let mut buf = vec![num_traits::Zero::zero(); total_bytes.unwrap() / core::mem::size_of::<T>()];
     decoder.read_image(bytemuck::cast_slice_mut(buf.as_mut_slice()))?;
     Ok(buf)
 }

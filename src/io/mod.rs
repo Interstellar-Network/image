@@ -1,6 +1,6 @@
 //! Input and output of images.
 
-use std::convert::TryFrom;
+use core::convert::TryFrom;
 
 use crate::{error, ImageError, ImageResult};
 

@@ -1,7 +1,10 @@
 //! Functions for altering and converting the color of pixelbufs
 
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd::vec::Vec;
+
+use core::f64::consts::PI;
 use num_traits::NumCast;
-use std::f64::consts::PI;
 
 use crate::color::{FromColor, IntoColor, Luma, LumaA, Rgba};
 use crate::image::{GenericImage, GenericImageView};
