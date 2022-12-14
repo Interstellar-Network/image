@@ -33,7 +33,8 @@ path = "./src/lib.rs"
 bytemuck = { version = "1.7.0", features = ["extern_crate_alloc"] } # includes cast_vec
 byteorder = { version = "1.3.2", default-features = false }
 num-rational = { version = "0.4", default-features = false }
-num-traits = "0.2.0"
+# libm: "Uncomment if you wish to use `Float` and `Real` without `std`"
+num-traits = { version = "0.2", default-features = false, features = ["libm"] }
 gif = { version = "0.12", optional = true }
 jpeg = { package = "jpeg-decoder", version = "0.3.0", default-features = false, optional = true }
 png = { version = "0.17.6", optional = true }
@@ -49,7 +50,7 @@ exr = { version = "1.5.0", optional = true }
 qoi = { version = "0.4", optional = true }
 libwebp = { package = "webp", version = "0.2.2", default-features = false, optional = true }
 
-sgx_tstd = { branch = "master", git = "https://github.com/apache/teaclave-sgx-sdk.git", optional = true, features = ["untrusted_fs"] }
+sgx_tstd = { tag = "v1.1.5", git = "https://github.com/apache/teaclave-sgx-sdk.git", optional = true, features = ["untrusted_fs"] }
 
 [dev-dependencies]
 crc32fast = "1.2.0"
@@ -63,7 +64,7 @@ jpeg = { package = "jpeg-decoder", version = "0.3.0", default-features = false, 
 
 [features]
 # TODO: Add "avif" to this list while preparing for 0.24.0
-default = ["gif", "jpeg", "ico", "png", "pnm", "tga", "tiff", "webp", "bmp", "hdr", "dxt", "dds", "farbfeld", "jpeg_rayon", "openexr", "qoi"]
+default = ["std", "gif", "jpeg", "ico", "png", "pnm", "tga", "tiff", "webp", "bmp", "hdr", "dxt", "dds", "farbfeld", "jpeg_rayon", "openexr", "qoi"]
 
 ico = ["bmp", "png"]
 pnm = []
@@ -98,6 +99,10 @@ benchmarks = []
 
 sgx = ["sgx_tstd"]
 std = []
+
+# TODO(interstellar) remove patch
+[patch.crates-io]
+color_quant = { path = "../color_quant" }
 
 [[bench]]
 path = "benches/decode.rs"
