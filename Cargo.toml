@@ -100,8 +100,8 @@ benchmarks = []
 
 # libm: "Uncomment if you wish to use `Float` and `Real` without `std`"
 libm = ["num-traits/libm"]
-sgx = ["sgx_tstd", "libm"]
-std = ["num-traits/std", "byteorder/std", "gif/default"]
+sgx = ["sgx_tstd", "libm", "color_quant/alloc"]
+std = ["num-traits/std", "byteorder/std", "gif/default", "color_quant/std"]
 
 [[bench]]
 path = "benches/decode.rs"
