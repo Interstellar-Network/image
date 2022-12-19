@@ -95,6 +95,9 @@
 // it's a backwards compatibility break
 #![allow(clippy::wrong_self_convention, clippy::enum_variant_names)]
 
+#[cfg(all(not(feature = "std"), feature = "sgx"))]
+use sgx_tstd as std;
+
 #[cfg(all(test, feature = "benchmarks"))]
 extern crate test;
 

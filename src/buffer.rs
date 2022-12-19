@@ -1625,7 +1625,7 @@ mod test {
     fn write_to_with_large_buffer() {
         // A buffer of 1 pixel, padded to 4 bytes as would be common in, e.g. BMP.
         let img: GrayImage = ImageBuffer::from_raw(1, 1, vec![0u8; 4]).unwrap();
-        let mut buffer = Cursor::new(vec![]);
+        let mut buffer = std::io::Cursor::new(vec![]);
         assert!(img.write_to(&mut buffer, ImageOutputFormat::Png).is_ok());
     }
 
