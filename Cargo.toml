@@ -100,7 +100,7 @@ benchmarks = []
 
 # libm: "Uncomment if you wish to use `Float` and `Real` without `std`"
 libm = ["num-traits/libm"]
-sgx = ["sgx_tstd", "libm", "color_quant/alloc"]
+sgx = ["sgx_tstd", "libm", "color_quant/num-traits"]
 std = ["num-traits/std", "byteorder/std", "gif/default", "color_quant/std"]
 
 [[bench]]
