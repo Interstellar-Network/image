@@ -41,9 +41,10 @@
 //! }
 //! ```
 //!
-use std::marker::PhantomData;
-use std::ops::{Deref, Index, IndexMut};
-use std::{cmp, error, fmt};
+use alloc::vec::Vec;
+use core::marker::PhantomData;
+use core::ops::{Deref, Index, IndexMut};
+use core::{cmp, error, fmt};
 
 use num_traits::Zero;
 

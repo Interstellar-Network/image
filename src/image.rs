@@ -1,8 +1,15 @@
 #![allow(clippy::too_many_arguments)]
+use alloc::boxed::Box;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::mem::size_of;
+use core::ops::{Deref, DerefMut};
+
+#[cfg(feature = "std")]
 use std::ffi::OsStr;
+#[cfg(feature = "std")]
 use std::io::{self, Write};
-use std::mem::size_of;
-use std::ops::{Deref, DerefMut};
+#[cfg(feature = "std")]
 use std::path::Path;
 
 #[cfg(feature = "serde")]
@@ -86,6 +93,7 @@ impl ImageFormat {
     /// let format = ImageFormat::from_extension("jpg");
     /// assert_eq!(format, Some(ImageFormat::Jpeg));
     /// ```
+    #[cfg(feature = "std")]
     #[inline]
     pub fn from_extension<S>(ext: S) -> Option<Self>
     where
@@ -424,6 +432,7 @@ impl ImageReadBuffer {
         }
     }
 
+    #[cfg(feature = "std")]
     #[allow(dead_code)]
     // When no image formats that use it are enabled
     pub(crate) fn read<F>(&mut self, buf: &mut [u8], mut read_scanline: F) -> io::Result<usize>
@@ -471,6 +480,7 @@ impl ImageReadBuffer {
 
 /// Decodes a specific region of the image, represented by the rectangle
 /// starting from ```x``` and ```y``` and having ```length``` and ```width```
+#[cfg(feature = "std")]
 #[allow(dead_code)]
 // When no image formats that use it are enabled
 pub(crate) fn load_rect<D, F1, F2, E>(
@@ -657,6 +667,7 @@ pub trait ImageDecoder {
     ///
     /// This is usually obtained from the Exif metadata, if present. Formats that don't support
     /// indicating orientation in their image metadata will return `Ok(Orientation::NoTransforms)`.
+    #[cfg(feature = "std")]
     fn orientation(&mut self) -> ImageResult<Orientation> {
         Ok(self
             .exif_metadata()?

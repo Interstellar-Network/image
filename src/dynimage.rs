@@ -1,4 +1,8 @@
+use alloc::vec::Vec;
+
+#[cfg(feature = "std")]
 use std::io::{self, Seek, Write};
+#[cfg(feature = "std")]
 use std::path::Path;
 
 #[cfg(feature = "gif")]
@@ -1270,6 +1274,7 @@ where
 ///
 /// This will lead to corrupted files if the buffer contains malformed data. Currently only
 /// jpeg, png, ico, pnm, bmp, exr and tiff files are supported.
+#[cfg(feature = "std")]
 pub fn save_buffer(
     path: impl AsRef<Path>,
     buf: &[u8],
@@ -1289,6 +1294,7 @@ pub fn save_buffer(
 /// This will lead to corrupted files if the buffer contains
 /// malformed data. Currently only jpeg, png, ico, bmp, exr and
 /// tiff files are supported.
+#[cfg(feature = "std")]
 pub fn save_buffer_with_format(
     path: impl AsRef<Path>,
     buf: &[u8],
@@ -1315,6 +1321,7 @@ pub fn save_buffer_with_format(
 ///
 /// Assumes the writer is buffered. In most cases, you should wrap your writer in a `BufWriter` for
 /// best performance.
+#[cfg(feature = "std")]
 pub fn write_buffer_with_format<W: Write + Seek>(
     buffered_writer: &mut W,
     buf: &[u8],
@@ -1346,6 +1353,7 @@ pub fn load_from_memory(buffer: &[u8]) -> ImageResult<DynamicImage> {
 /// Try [`ImageReader`] for more advanced uses.
 ///
 /// [`load`]: fn.load.html
+#[cfg(feature = "std")]
 #[inline(always)]
 pub fn load_from_memory_with_format(buf: &[u8], format: ImageFormat) -> ImageResult<DynamicImage> {
     let b = io::Cursor::new(buf);

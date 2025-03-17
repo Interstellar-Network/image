@@ -1,6 +1,7 @@
 //!  Utilities
 
-use std::iter::repeat;
+use alloc::vec::Vec;
+use core::iter::repeat;
 
 #[inline(always)]
 pub(crate) fn expand_packed<F>(buf: &mut [u8], channels: usize, bit_depth: u8, mut func: F)

@@ -1,3 +1,7 @@
+extern crate alloc;
+
+use alloc::vec;
+
 use criterion::{criterion_group, criterion_main, Criterion};
 use image::{imageops::fast_blur, ImageBuffer, Rgb};
 

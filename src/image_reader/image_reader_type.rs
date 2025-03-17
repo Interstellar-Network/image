@@ -1,3 +1,4 @@
+use alloc::boxed::Box;
 use std::fs::File;
 use std::io::{self, BufRead, BufReader, Cursor, Read, Seek, SeekFrom};
 use std::path::Path;

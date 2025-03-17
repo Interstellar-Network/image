@@ -13,8 +13,10 @@
 //!
 //! [`ImageError`]: enum.ImageError.html
 
-use std::error::Error;
-use std::{fmt, io};
+use alloc::boxed::Box;
+use alloc::string::String;
+use core::error::Error;
+use core::fmt;
 
 use crate::color::ExtendedColorType;
 use crate::image::ImageFormat;
@@ -61,6 +63,7 @@ pub enum ImageError {
     Unsupported(UnsupportedError),
 
     /// An error occurred while interacting with the environment.
+    #[cfg(feature = "std")]
     IoError(io::Error),
 }
 
@@ -297,6 +300,7 @@ impl LimitError {
     }
 }
 
+#[cfg(feature = "std")]
 impl From<io::Error> for ImageError {
     fn from(err: io::Error) -> ImageError {
         ImageError::IoError(err)

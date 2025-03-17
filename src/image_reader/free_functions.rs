@@ -1,5 +1,9 @@
+use alloc::format;
+#[cfg(feature = "std")]
 use std::fs::File;
+#[cfg(feature = "std")]
 use std::io::{BufRead, BufWriter, Seek};
+#[cfg(feature = "std")]
 use std::path::Path;
 
 use crate::{codecs::*, ExtendedColorType, ImageReader};
@@ -23,6 +27,7 @@ pub fn load<R: BufRead + Seek>(r: R, format: ImageFormat) -> ImageResult<Dynamic
     reader.decode()
 }
 
+#[cfg(feature = "std")]
 #[allow(unused_variables)]
 // Most variables when no features are supported
 pub(crate) fn save_buffer_impl(
@@ -36,6 +41,7 @@ pub(crate) fn save_buffer_impl(
     save_buffer_with_format_impl(path, buf, width, height, color, format)
 }
 
+#[cfg(feature = "std")]
 #[allow(unused_variables)]
 // Most variables when no features are supported
 pub(crate) fn save_buffer_with_format_impl(

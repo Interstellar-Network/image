@@ -1,10 +1,12 @@
 //! Contains the generic `ImageBuffer` struct.
+use alloc::vec;
+use alloc::vec::Vec;
+use core::marker::PhantomData;
+use core::ops::{Deref, DerefMut, Index, IndexMut, Range};
+use core::slice::{ChunksExact, ChunksExactMut};
 use num_traits::Zero;
 use std::fmt;
-use std::marker::PhantomData;
-use std::ops::{Deref, DerefMut, Index, IndexMut, Range};
 use std::path::Path;
-use std::slice::{ChunksExact, ChunksExactMut};
 
 use crate::color::{FromColor, Luma, LumaA, Rgb, Rgba};
 use crate::dynimage::{save_buffer, save_buffer_with_format, write_buffer_with_format};

@@ -35,8 +35,8 @@ all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
-bytemuck = { version = "1.8.0", features = ["extern_crate_alloc"] } # includes cast_vec
-byteorder-lite = "0.1.0"
+bytemuck = { version = "1.8.0", default-features = false, features = ["extern_crate_alloc"] } # includes cast_vec
+byteorder-lite = { version = "0.1.0", default-features = false }
 num-traits = { version = "0.2.0", default-features = false }
 
 # Optional dependencies
@@ -64,7 +64,8 @@ quickcheck = "1"
 criterion = "0.5.0"
 
 [features]
-default = ["rayon", "default-formats"]
+default = ["std"]
+std = ["rayon", "default-formats"]
 
 # Format features
 default-formats = ["avif", "bmp", "dds", "exr", "ff", "gif", "hdr", "ico", "jpeg", "png", "pnm", "qoi", "tga", "tiff", "webp"]
