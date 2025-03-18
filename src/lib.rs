@@ -119,6 +119,9 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![cfg_attr(all(test, feature = "benchmarks"), feature(test))]
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
+// NOTE: we only need this when compiling for SGX b/c stuck using Rust 1.66
+// so we can be quite specific
+#![cfg_attr(cfg_old_rust, feature(error_in_core))]
 // We've temporarily disabled PCX support for 0.25.5 release
 // by removing the corresponding feature.
 // We want to ship bug fixes without committing to PCX support.

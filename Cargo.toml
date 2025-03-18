@@ -57,6 +57,9 @@ zune-jpeg = { version = "0.4.13", optional = true }
 serde = { version = "1.0.214", optional = true, features = ["derive"] }
 libm = "0.2"
 
+[build-dependencies]
+rustversion = "1.0.20"
+
 [dev-dependencies]
 crc32fast = "1.2.0"
 num-complex = "0.4"
