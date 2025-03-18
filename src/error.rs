@@ -64,7 +64,7 @@ pub enum ImageError {
 
     /// An error occurred while interacting with the environment.
     #[cfg(feature = "std")]
-    IoError(io::Error),
+    IoError(std::io::Error),
 }
 
 /// The implementation for an operation was not provided.
@@ -302,8 +302,8 @@ impl LimitError {
 }
 
 #[cfg(feature = "std")]
-impl From<io::Error> for ImageError {
-    fn from(err: io::Error) -> ImageError {
+impl From<std::io::Error> for ImageError {
+    fn from(err: std::io::Error) -> ImageError {
         ImageError::IoError(err)
     }
 }

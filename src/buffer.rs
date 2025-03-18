@@ -1002,7 +1002,7 @@ where
         Q: AsRef<Path>,
         P: PixelWithColorType,
     {
-        save_buffer(
+        crate::save_buffer(
             path,
             self.inner_pixels().as_bytes(),
             self.width(),
@@ -1030,7 +1030,7 @@ where
         P: PixelWithColorType,
     {
         // This is valid as the subpixel is u8.
-        save_buffer_with_format(
+        crate::save_buffer_with_format(
             path,
             self.inner_pixels().as_bytes(),
             self.width(),
@@ -1058,7 +1058,7 @@ where
         P: PixelWithColorType,
     {
         // This is valid as the subpixel is u8.
-        write_buffer_with_format(
+        crate::write_buffer_with_format(
             writer,
             self.inner_pixels().as_bytes(),
             self.width(),
