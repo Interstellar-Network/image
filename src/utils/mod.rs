@@ -1,5 +1,6 @@
 //!  Utilities
 
+use alloc::borrow::ToOwned;
 use alloc::vec::Vec;
 use core::iter::repeat;
 

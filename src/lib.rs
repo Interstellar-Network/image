@@ -173,16 +173,27 @@ pub use crate::flat::FlatSamples;
 pub use crate::traits::{EncodableLayout, Pixel, PixelWithColorType, Primitive};
 
 // Opening and loading images
-pub use crate::dynimage::{
-    image_dimensions, load_from_memory, load_from_memory_with_format, open, save_buffer,
-    save_buffer_with_format, write_buffer_with_format,
-};
-pub use crate::image_reader::free_functions::{guess_format, load};
-pub use crate::image_reader::{ImageReader, LimitSupport, Limits};
+pub use crate::image_reader::free_functions::guess_format;
+pub use crate::image_reader::{LimitSupport, Limits};
 
 pub use crate::dynimage::DynamicImage;
 
 pub use crate::animation::{Delay, Frame, Frames};
+
+#[cfg(feature = "std")]
+pub use crate::image_reader::free_functions::load;
+
+#[cfg(feature = "std")]
+pub use crate::dynimage::{image_dimensions, open};
+
+#[cfg(feature = "std")]
+pub use crate::image_reader::ImageReader;
+
+#[cfg(feature = "std")]
+pub use crate::dynimage::{
+    load_from_memory, load_from_memory_with_format, save_buffer, save_buffer_with_format,
+    write_buffer_with_format,
+};
 
 // More detailed error type
 pub mod error;
@@ -308,6 +319,7 @@ pub mod metadata;
 pub mod io {
     #[deprecated(note = "this type has been moved and renamed to image::ImageReader")]
     /// Deprecated re-export of `ImageReader` as `Reader`
+    #[cfg(feature = "std")]
     pub type Reader<R> = super::ImageReader<R>;
     #[deprecated(note = "this type has been moved to image::Limits")]
     /// Deprecated re-export of `Limits`

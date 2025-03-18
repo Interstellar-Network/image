@@ -1,5 +1,6 @@
 use core::ops::{Index, IndexMut};
 
+use num_traits::float::FloatCore;
 use num_traits::{NumCast, ToPrimitive, Zero};
 
 use crate::traits::{Enlargeable, Pixel, Primitive};

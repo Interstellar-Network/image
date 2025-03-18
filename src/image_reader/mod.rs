@@ -3,8 +3,10 @@
 use crate::{error, ColorType, ImageError, ImageResult};
 
 pub(crate) mod free_functions;
+#[cfg(feature = "std")]
 mod image_reader_type;
 
+#[cfg(feature = "std")]
 pub use self::image_reader_type::ImageReader;
 
 /// Set of supported strict limits for a decoder.

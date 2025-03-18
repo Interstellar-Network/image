@@ -139,6 +139,7 @@ impl ImageFormat {
     ///
     /// # Ok::<(), image::error::ImageError>(())
     /// ```
+    #[cfg(feature = "std")]
     #[inline]
     pub fn from_path<P>(path: P) -> ImageResult<Self>
     where

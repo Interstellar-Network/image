@@ -2,6 +2,8 @@
 
 use alloc::vec::Vec;
 use core::f64::consts::PI;
+use libm::{cos, sin};
+use num_traits::float::FloatCore;
 use num_traits::NumCast;
 
 use crate::color::{FromColor, IntoColor, Luma, LumaA};
@@ -231,8 +233,8 @@ where
 
     let angle: f64 = NumCast::from(value).unwrap();
 
-    let cosv = (angle * PI / 180.0).cos();
-    let sinv = (angle * PI / 180.0).sin();
+    let cosv = cos(angle * PI / 180.0);
+    let sinv = sin(angle * PI / 180.0);
     let matrix: [f64; 9] = [
         // Reds
         0.213 + cosv * 0.787 - sinv * 0.213,
@@ -295,8 +297,8 @@ where
 
     let angle: f64 = NumCast::from(value).unwrap();
 
-    let cosv = (angle * PI / 180.0).cos();
-    let sinv = (angle * PI / 180.0).sin();
+    let cosv = cos(angle * PI / 180.0);
+    let sinv = sin(angle * PI / 180.0);
     let matrix: [f64; 9] = [
         // Reds
         0.213 + cosv * 0.787 - sinv * 0.213,

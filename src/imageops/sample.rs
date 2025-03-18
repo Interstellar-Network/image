@@ -7,6 +7,8 @@ use alloc::boxed::Box;
 use alloc::vec::Vec;
 use core::f32;
 
+use libm::{expf, sinf, sqrtf};
+use num_traits::float::FloatCore;
 use num_traits::{NumCast, ToPrimitive, Zero};
 
 use crate::image::{GenericImage, GenericImageView};
@@ -144,7 +146,7 @@ fn sinc(t: f32) -> f32 {
     if t == 0.0 {
         1.0
     } else {
-        a.sin() / a
+        sinf(a) / a
     }
 }
 
@@ -181,7 +183,7 @@ fn bc_cubic_spline(x: f32, b: f32, c: f32) -> f32 {
 /// The Gaussian Function.
 /// ```r``` is the standard deviation.
 pub(crate) fn gaussian(x: f32, r: f32) -> f32 {
-    ((2.0 * f32::consts::PI).sqrt() * r).recip() * (-x.powi(2) / (2.0 * r.powi(2))).exp()
+    expf(sqrtf(2.0 * f32::consts::PI) * r).recip() * (-x.powi(2) / (2.0 * r.powi(2)))
 }
 
 /// Calculate the lanczos kernel with a window of 3

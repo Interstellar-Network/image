@@ -1,11 +1,10 @@
 //! Types describing image metadata
-
-use std::io::{Cursor, Read};
-
 use byteorder_lite::{BigEndian, LittleEndian};
 
 #[cfg(feature = "std")]
 use byteorder_lite::ReadBytesExt;
+#[cfg(feature = "std")]
+use std::io::{Cursor, Read};
 
 /// Describes the transformations to be applied to the image.
 /// Compatible with [Exif orientation](https://web.archive.org/web/20200412005226/https://www.impulseadventure.com/photo/exif-orientation.html).

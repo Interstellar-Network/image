@@ -1,15 +1,13 @@
 //! Contains the generic `ImageBuffer` struct.
 use alloc::vec;
 use alloc::vec::Vec;
+use core::fmt;
 use core::marker::PhantomData;
 use core::ops::{Deref, DerefMut, Index, IndexMut, Range};
 use core::slice::{ChunksExact, ChunksExactMut};
 use num_traits::Zero;
-use std::fmt;
-use std::path::Path;
 
 use crate::color::{FromColor, Luma, LumaA, Rgb, Rgba};
-use crate::dynimage::{save_buffer, save_buffer_with_format, write_buffer_with_format};
 use crate::error::ImageResult;
 use crate::flat::{FlatSamples, SampleLayout};
 use crate::image::{GenericImage, GenericImageView, ImageEncoder, ImageFormat};
@@ -17,6 +15,9 @@ use crate::math::Rect;
 use crate::traits::{EncodableLayout, Pixel, PixelWithColorType};
 use crate::utils::expand_packed;
 use crate::DynamicImage;
+
+#[cfg(feature = "std")]
+use std::path::Path;
 
 /// Iterate over pixel refs.
 pub struct Pixels<'a, P: Pixel + 'a>
@@ -995,6 +996,7 @@ where
     /// Saves the buffer to a file at the path specified.
     ///
     /// The image format is derived from the file extension.
+    #[cfg(feature = "std")]
     pub fn save<Q>(&self, path: Q) -> ImageResult<()>
     where
         Q: AsRef<Path>,
@@ -1021,6 +1023,7 @@ where
     ///
     /// See [`save_buffer_with_format`](fn.save_buffer_with_format.html) for
     /// supported types.
+    #[cfg(feature = "std")]
     pub fn save_with_format<Q>(&self, path: Q, format: ImageFormat) -> ImageResult<()>
     where
         Q: AsRef<Path>,
@@ -1048,6 +1051,7 @@ where
     ///
     /// Assumes the writer is buffered. In most cases, you should wrap your writer in a `BufWriter`
     /// for best performance.
+    #[cfg(feature = "std")]
     pub fn write_to<W>(&self, writer: &mut W, format: ImageFormat) -> ImageResult<()>
     where
         W: std::io::Write + std::io::Seek,

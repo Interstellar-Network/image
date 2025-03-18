@@ -1,3 +1,4 @@
+use alloc::borrow::ToOwned;
 use alloc::vec::Vec;
 
 #[cfg(feature = "std")]
@@ -22,10 +23,12 @@ use crate::image_reader::free_functions;
 use crate::math::resize_dimensions;
 use crate::metadata::Orientation;
 use crate::traits::Pixel;
-use crate::ImageReader;
 use crate::{image, Luma, LumaA};
 use crate::{imageops, ExtendedColorType};
 use crate::{Rgb32FImage, Rgba32FImage};
+
+#[cfg(feature = "std")]
+use crate::ImageReader;
 
 /// A Dynamic Image
 ///
@@ -986,6 +989,7 @@ impl DynamicImage {
     ///
     /// Assumes the writer is buffered. In most cases,
     /// you should wrap your writer in a `BufWriter` for best performance.
+    #[cfg(feature = "std")]
     pub fn write_to<W: Write + Seek>(&self, w: &mut W, format: ImageFormat) -> ImageResult<()> {
         let bytes = self.inner_bytes();
         let (width, height) = self.dimensions();
@@ -1021,6 +1025,7 @@ impl DynamicImage {
     /// Saves the buffer to a file at the path specified.
     ///
     /// The image format is derived from the file extension.
+    #[cfg(feature = "std")]
     pub fn save<Q>(&self, path: Q) -> ImageResult<()>
     where
         Q: AsRef<Path>,
@@ -1033,6 +1038,7 @@ impl DynamicImage {
     ///
     /// See [`save_buffer_with_format`](fn.save_buffer_with_format.html) for
     /// supported types.
+    #[cfg(feature = "std")]
     pub fn save_with_format<Q>(&self, path: Q, format: ImageFormat) -> ImageResult<()>
     where
         Q: AsRef<Path>,
@@ -1248,6 +1254,7 @@ fn decoder_to_image<I: ImageDecoder>(decoder: I) -> ImageResult<DynamicImage> {
 ///
 /// Try [`ImageReader`] for more advanced uses, including guessing the format based on the file's
 /// content before its path.
+#[cfg(feature = "std")]
 pub fn open<P>(path: P) -> ImageResult<DynamicImage>
 where
     P: AsRef<Path>,
@@ -1260,6 +1267,7 @@ where
 ///
 /// Try [`ImageReader`] for more advanced uses, including guessing the format based on the file's
 /// content before its path or manually supplying the format.
+#[cfg(feature = "std")]
 pub fn image_dimensions<P>(path: P) -> ImageResult<(u32, u32)>
 where
     P: AsRef<Path>,
@@ -1340,6 +1348,7 @@ pub fn write_buffer_with_format<W: Write + Seek>(
 /// TGA is not supported by this function.
 ///
 /// Try [`ImageReader`] for more advanced uses.
+#[cfg(feature = "std")]
 pub fn load_from_memory(buffer: &[u8]) -> ImageResult<DynamicImage> {
     let format = free_functions::guess_format(buffer)?;
     load_from_memory_with_format(buffer, format)

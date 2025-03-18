@@ -6,7 +6,7 @@ use std::io::{BufRead, BufWriter, Seek};
 #[cfg(feature = "std")]
 use std::path::Path;
 
-use crate::{codecs::*, ExtendedColorType, ImageReader};
+use crate::{codecs::*, ExtendedColorType};
 
 use crate::dynimage::DynamicImage;
 use crate::error::{ImageError, ImageFormatHint, ImageResult};
@@ -15,12 +15,16 @@ use crate::image::ImageFormat;
 #[allow(unused_imports)] // When no features are supported
 use crate::image::{ImageDecoder, ImageEncoder};
 
+#[cfg(feature = "std")]
+use crate::ImageReader;
+
 /// Create a new image from a Reader.
 ///
 /// Assumes the reader is already buffered. For optimal performance,
 /// consider wrapping the reader with a `BufReader::new()`.
 ///
 /// Try [`ImageReader`] for more advanced uses.
+#[cfg(feature = "std")]
 pub fn load<R: BufRead + Seek>(r: R, format: ImageFormat) -> ImageResult<DynamicImage> {
     let mut reader = ImageReader::new(r);
     reader.set_format(format);
@@ -56,6 +60,7 @@ pub(crate) fn save_buffer_with_format_impl(
     write_buffer_impl(buffered_file_write, buf, width, height, color, format)
 }
 
+#[cfg(feature = "std")]
 #[allow(unused_variables)]
 // Most variables when no features are supported
 pub(crate) fn write_buffer_impl<W: std::io::Write + Seek>(

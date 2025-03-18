@@ -1,6 +1,7 @@
 //! Shared mathematical utility functions.
 
 use core::cmp::max;
+use num_traits::float::FloatCore;
 
 /// Calculates the width and height an image should be resized to.
 /// This preserves aspect ratio, and based on the `fill` parameter

@@ -186,6 +186,7 @@ pub enum ImageFormatHint {
     Name(String),
 
     /// A common path extension for the format is known.
+    #[cfg(feature = "std")]
     PathExtension(std::path::PathBuf),
 
     /// The format is not known or could not be determined.
@@ -313,6 +314,7 @@ impl From<ImageFormat> for ImageFormatHint {
     }
 }
 
+#[cfg(feature = "std")]
 impl From<&'_ std::path::Path> for ImageFormatHint {
     fn from(path: &'_ std::path::Path) -> Self {
         match path.extension() {
@@ -337,6 +339,7 @@ pub type ImageResult<T> = Result<T, ImageError>;
 impl fmt::Display for ImageError {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
         match self {
+            #[cfg(feature = "std")]
             ImageError::IoError(err) => err.fmt(fmt),
             ImageError::Decoding(err) => err.fmt(fmt),
             ImageError::Encoding(err) => err.fmt(fmt),
@@ -350,6 +353,7 @@ impl fmt::Display for ImageError {
 impl Error for ImageError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            #[cfg(feature = "std")]
             ImageError::IoError(err) => err.source(),
             ImageError::Decoding(err) => err.source(),
             ImageError::Encoding(err) => err.source(),
@@ -366,6 +370,7 @@ impl fmt::Display for UnsupportedError {
             UnsupportedErrorKind::Format(ImageFormatHint::Unknown) => {
                 write!(fmt, "The image format could not be determined",)
             }
+            #[cfg(feature = "std")]
             UnsupportedErrorKind::Format(format @ ImageFormatHint::PathExtension(_)) => write!(
                 fmt,
                 "The file extension {format} was not recognized as an image format",
@@ -494,6 +499,7 @@ impl fmt::Display for ImageFormatHint {
         match self {
             ImageFormatHint::Exact(format) => write!(fmt, "{format:?}"),
             ImageFormatHint::Name(name) => write!(fmt, "`{name}`"),
+            #[cfg(feature = "std")]
             ImageFormatHint::PathExtension(ext) => write!(fmt, "`.{ext:?}`"),
             ImageFormatHint::Unknown => write!(fmt, "`Unknown`"),
         }

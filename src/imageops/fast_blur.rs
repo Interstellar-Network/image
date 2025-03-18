@@ -1,7 +1,9 @@
 use alloc::vec;
 use alloc::vec::Vec;
 
+use libm::sqrtf;
 use num_traits::clamp;
+use num_traits::float::FloatCore;
 
 use crate::{ImageBuffer, Pixel, Primitive};
 
@@ -42,7 +44,7 @@ pub fn fast_blur<P: Pixel>(
 }
 
 fn boxes_for_gauss(sigma: f32, n: usize) -> Vec<usize> {
-    let w_ideal = f32::sqrt((12.0 * sigma.powi(2) / (n as f32)) + 1.0);
+    let w_ideal: f32 = sqrtf((12.0 * sigma.powi(2) / (n as f32)) + 1.0);
     let mut w_l = w_ideal.floor();
     if w_l % 2.0 == 0.0 {
         w_l -= 1.0
